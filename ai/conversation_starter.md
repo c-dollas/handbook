@@ -8,7 +8,7 @@ Use this at the start of ChatGPT, Claude, or other AI tool conversations (outsid
 
 ```
 Mandatory to read my universal AI instructions before starting:
-https://github.com/c-dollas/handbook/blob/main/ai/universal_instructions.md
+https://github.com/c-dollas/handbook/blob/main/ai/universal.instructions.md
 
 Mandatory to Read Key definitions reference:
 https://github.com/c-dollas/handbook/blob/main/definitions/all_purpose_use.md
@@ -22,7 +22,7 @@ Now help me with: [YOUR REQUEST HERE]
 
 For mobile, just paste the instructions URL:
 ```
-https://github.com/c-dollas/handbook/blob/main/ai/universal_instructions.md
+https://github.com/c-dollas/handbook/blob/main/ai/universal.instructions.md
 ```
 
 ---

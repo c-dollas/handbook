@@ -1,3 +1,18 @@
+---
+name: UniversalAIInstructions
+description: Canonical AI tool rules and ergonomics for every repository in the org
+applyTo: '*'
+---
+
+---
+audience: ["VS Code", "Copilot Chat", "Web AI"]
+tier: T0
+applies_to: ["workspace:/Users/laptop/Documents/GitHub"]
+owner: operations
+last_reviewed: 2025-11-28
+source_of_truth: handbook/ai/universal.instructions.md (this doc)
+---
+
 # Universal AI Tool Instructions (v1.1)
 
 ## Purpose
@@ -8,12 +23,15 @@ One canonical, tool-agnostic rule set to make AI outputs copy-paste-ready, minim
 
 ## Scope & Precedence
 - This file defines universal rules for any AI assistant (Copilot, ChatGPT, Claude, etc.).
-- In GitHub repos, assistants MUST also read `.github/copilot-instructions.md` (repo‑wide) and any path‑specific files in `.github/instructions/*.instructions.md` (if present).
+- In GitHub repos, assistants MUST also read `.github/workspace.instructions.md` (workspace overlay) plus each repo’s `.github/copilot-instructions.md` and any path-specific `.github/instructions/*.instructions.md` files.
 - If conflicts arise, apply: Organization → Repository‑wide → Path‑specific → User. (Declare the same precedence in repo instruction files.)
+
+> **Rename note:** This file was previously stored at `handbook/ai/universal_instructions.md`. Update bookmarks, VS Code profiles, and documentation references to the new scope-based filename.
 
 ---
 
 ## 1. Core Principles
+
 
 1. **Don't block on retrievable info**  
    Attempt the check first (logs, file presence, permissions), include exact results; ask only for true blockers.
@@ -36,6 +54,9 @@ One canonical, tool-agnostic rule set to make AI outputs copy-paste-ready, minim
 7. **Multi-repo ergonomics**  
    Provide one script with echo headers per repo.
 
+8. **Always use true move operations for folder/file move requests**
+   When a user requests to move folders or files, use a true move (rename) operation, not copy/create. This preserves history, avoids duplication, and keeps the repo clean. Clearly state in your response whether you moved, copied, or created files/folders, and never claim a move if you performed a copy/create.
+
 ---
 
 ## 2. Risk Policy
@@ -56,7 +77,7 @@ One canonical, tool-agnostic rule set to make AI outputs copy-paste-ready, minim
 - Destructive git: `reset --hard`, `push --force`, branch deletes
 - Production triggers
 - Bulk deletions
-- Apps Script: undeploy/redeploy of production
+- Apps Script: remove old production deployments before redeploying new versions
 - Data-destructive Sheet operations
 
 **Pre-flight before any write:** State intent, affected paths/resources, expected outcome, and include fallback plan.
@@ -82,7 +103,7 @@ Prefer one complete script per task:
 - **Links:** Include direct URLs and the exact UI element to click (button/menu text)
 - **Artifacts:** When creating files, print their paths and how to open them
 
-### Templatesle Command
+### Template Shell Command
 ```bash
 # [What this does]
 cd /ABSOLUTE/PATH/TO/[REPO]
@@ -124,9 +145,35 @@ cd /ABSOLUTE/PATH/TO/[Repo3]
 echo -e "\n✅ Completed for all repos"
 ```
 
+### Always Do (Execution Patterns)
+
+- **Terminal Commands:** Every block MUST include the absolute `cd` into the target repo before any other command. Provide copy-paste-ready sequences rather than single commands.
+- **File References:** When pointing at a file, include either a clickable absolute path (preferred) or the exact command to open it (`code`, `open`, etc.).
+- **External Links:** Link directly to the console or document page and name the button/menu to select.
+- **Multi-Repo Workflows:** When an action spans several repos, emit one script with echo headers per repo so the user can run everything in one paste.
+- **Complex Multi-Step Tasks:** Provide the full workflow (cd, commands, verification echo) instead of numbered prose instructions.
+
+### Never Do
+
+- **Assume current directory knowledge.** Never say "run `git status`" without the preceding `cd`.
+- **Say "navigate to…" without commands.** Give the literal `cd` or UI steps.
+- **Reference files without links/context.** Provide clickable paths or the command to open them.
+- **Paste raw URLs without telling the user what to do there.** Include the action ("Enable API" etc.).
+- **Use relative paths without repo names.** Always anchor paths to `/Users/laptop/Documents/GitHub/<repo>/...` so there is no ambiguity.
+
+### Execution Checklist (before you send instructions)
+
+1. [ ] All shell blocks begin with the correct `cd`.
+2. [ ] File references are clickable or include `code`/`open` commands.
+3. [ ] External services include direct URLs plus the UI action to take.
+4. [ ] Multi-step workflows are consolidated into a single paste-ready block with comments and a success echo.
+5. [ ] Multi-repo actions include echo headers and per-repo `cd` statements.
+6. [ ] You’ve stated any assumptions explicitly (e.g., placeholder branch names).
+7. [ ] Verification commands or echo statements show the user how to confirm success.
+
 ---
 
-## 4. Research & Evidence (internet-sourced answers)rs)
+## 4. Research & Evidence (internet-sourced answers)
 
 - **Recency discipline:** Include both the event date and the publish/update date when relevant
 - **Two-source rule:** Cite at least one primary/official source for non-trivial claims
@@ -324,7 +371,7 @@ echo "Branch: $(git branch --show-current)"
 echo "Status: $(git status --short)"
 ```
 
-Output shows: Branch: main, Status: M README.md
+Output shows: Branch: main, Status: M README (Markdown file)
 
 **Decisions Needed:**
 1. Commit message preference? (Suggestion: "Update README with new instructions")
@@ -364,7 +411,7 @@ Proceed? (yes/no)
 
 **BAD:**
 ```
-I've created the file at docs/new_guide.md
+I've created the file at `docs/new_guide` (Markdown file)
 ```
 
 **GOOD:**
@@ -377,7 +424,7 @@ cd /Users/laptop/Documents/GitHub/Candle_Data_Analysis_V2
 code docs/new_guide.md
 ```
 
-Or click: [docs/new_guide.md](file:///Users/laptop/Documents/GitHub/Candle_Data_Analysis_V2/docs/new_guide.md)
+Or update the path to a real file before sharing a clickable link (never reference paths that don’t exist).
 ```
 
 ---
@@ -407,7 +454,7 @@ The Sheets API v4 supports batch updates.
 cd /Users/laptop/Documents/GitHub/Candle_Data_Analysis_V2
 git status
 
-cd /Users/laptop/Documents/GitHub/C-DollasP2
+cd /Users/laptop/Documents/GitHub/<Repo_B>
 git status
 
 cd /Users/laptop/Documents/GitHub/handbook
@@ -422,8 +469,8 @@ echo "=== Candle_Data_Analysis_V2 ==="
 cd /Users/laptop/Documents/GitHub/Candle_Data_Analysis_V2
 git status --short
 
-echo -e "\n=== C-DollasP2 ==="
-cd /Users/laptop/Documents/GitHub/C-DollasP2
+echo -e "\n=== <Repo_B> ==="
+cd /Users/laptop/Documents/GitHub/<Repo_B>
 git status --short
 
 echo -e "\n=== handbook ==="
@@ -446,5 +493,6 @@ Before sending any response, verify:
 - [ ] Questions consolidated into one "Decisions Needed" list with blocking items only
 - [ ] Risk labels attached (Safe / Prompt First / Always Confirm)
 - [ ] For Copilot code review: content is concise and self-contained (no reliance on external links for essential rules)
+
 
 

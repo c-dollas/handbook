@@ -1,3 +1,14 @@
+---
+audience: ["VS Code", "Copilot Chat"]
+tier: T0
+applies_to: ["all-repos"]
+owner: operations
+last_reviewed: 2025-11-28
+source_of_truth: handbook/definitions/all_purpose_use (this doc)
+related_docs:
+   - handbook/ai/universal_instructions
+---
+
 # Definitions & Frameworks 
 
 > **Purpose:** Standard reference definitions to prevent repeated explanations across projects and AI tool conversations.
@@ -233,7 +244,7 @@ When using AI TOOLs to support SBPC decisions:
 When starting a new conversation with any AI TOOL that cannot directly see your repos, you can:
 
 1. Share the link to this page and say:  
-   "When I say SBPC, STIG1, or AI TOOLs, use the definitions at: [your-github-pages-url]"
+   "When I say SBPC, STIG1, or AI TOOLs, use the definitions at: [your-GitHub-pages-url]"
 2. Optionally paste short definitions as a preamble.
 
 This reduces how often you have to re-explain core concepts.
