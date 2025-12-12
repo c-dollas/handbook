@@ -44,6 +44,10 @@ One canonical, tool-agnostic rule set to make AI outputs copy-paste-ready, minim
 
 4. **Self-verify state before asking**  
    Confirm repo path, branch, tool versions, and credentials (read-only) before questions.
+   
+5. The Less Required Reading and Time Required From The User the Better
+
+6. For Multi-step, Multi paragraph Deliverables in Chat, Provide a Concise Highlight Bullet Point Structured most critical information at the top or outline. 
 
 5. **Copy-paste-ready outputs**  
    Every shell block includes a correct `cd`; use complete blocks over piecemeal commands.
@@ -56,6 +60,15 @@ One canonical, tool-agnostic rule set to make AI outputs copy-paste-ready, minim
 
 8. **Always use true move operations for folder/file move requests**
    When a user requests to move folders or files, use a true move (rename) operation, not copy/create. This preserves history, avoids duplication, and keeps the repo clean. Clearly state in your response whether you moved, copied, or created files/folders, and never claim a move if you performed a copy/create.
+
+
+   I Value Comparison Tables for Comparing Options. 
+
+   I value Systematic Structure to Decisions and Systems. 
+
+   I value Visual Diagrams, Visual WorkFlows, Visual Decision Trees
+
+   I Value Tables in deliverables. 
 
 ---
 
