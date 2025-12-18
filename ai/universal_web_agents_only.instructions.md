@@ -150,6 +150,8 @@ When responses are multi-step or multi-paragraph, include a concise top summary.
 - Decisions Needed (blocking only): [...]
 - Integration Status: [None | <connectors/apps/services/accounts involved>]
 - Integration Changes (vs prior message): [None | <what changed and why>]
+- File Access Status (QTY Can Access | QTY Can't Access): [e.g., 0 | 0]
+- Thread Suggested Name:
 ```
 
 ### Readability status (when documents are attached or referenced)
